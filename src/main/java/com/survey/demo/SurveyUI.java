@@ -2,11 +2,12 @@ package com.survey.demo;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringUI
 public class SurveyUI extends UI{
-
+//I followed the examples of an online tutorial
         private VerticalLayout root;
         @Autowired
         SurveyLayout surveyLayout;
@@ -16,10 +17,12 @@ public class SurveyUI extends UI{
                 addHeader();
                 addQuestion();
                 addForm();
-                addTodoList();
-                addDeleteButton();
+                addSurvey();
+
 
         }
+
+
 
 
 
@@ -35,19 +38,25 @@ public class SurveyUI extends UI{
         private void addQuestion(){
                 root.addComponent(new Label("What is your favorite dog?"));
         }
-        private void addDeleteButton(){
-                root.addComponent(new Button("Delete"));
-        }
+
 
         private void addForm(){
                HorizontalLayout formLayout= new HorizontalLayout();
+               formLayout.setWidth("50%");
                TextField answer = new TextField();
+               Label label = new Label("");
                Button submit = new Button("Submit");
-               formLayout.addComponents(answer, submit);
-               root.addComponent(formLayout);
+               submit.addClickListener(e->{
+                   label.setValue("Your favorite dog is "+answer.getValue());
+               });
+               submit.addStyleName(ValoTheme.BUTTON_PRIMARY);
+               formLayout.addComponentsAndExpand(answer);
+               formLayout.addComponent(submit);
+               root.addComponents(formLayout,label);
         }
 
-        private void addTodoList(){
+        private void addSurvey(){
+            surveyLayout.setWidth("50%");
                 root.addComponent(surveyLayout);
         }
 }
